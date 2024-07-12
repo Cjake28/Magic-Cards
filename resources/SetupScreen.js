@@ -26,11 +26,6 @@ const SetupScreens = ({ navigation }) => {
         <SetupCards item={item} size={1} scrollX={scrollX} index={index}/>
     );
 
-    const onScrollHandler = (event) => {
-        scrollX.value = event.nativeEvent.contentOffset.x;  
-        console.log(scrollX.value);
-      };
-
     return (
         <View style={{ flex: 1 }}>
             <ImageBackground
@@ -38,17 +33,20 @@ const SetupScreens = ({ navigation }) => {
                 style={styles.background}
             >
                 <SafeAreaView style={styles.safeArea}>
-                    <FlatList
+                    <Animated.FlatList
+                        scrollEventThrottle={16}
                         style={styles.flatList}
                         contentContainerStyle={styles.flatListContent}
                         data={first21Cards}
                         renderItem={renderItem}
                         keyExtractor={(item, index) => index.toString()}
+                        showsHorizontalScrollIndicator={false}  // Hide horizontal scroll indicator
                         horizontal={true}  // Set FlatList to horizontal
                         // ItemSeparatorComponent={() => <View style={{ width: horizontalScale(15) }} />}  // Adjust separator for horizontal layout
-                        showsHorizontalScrollIndicator={false}  // Hide horizontal scroll indicator
-                        onScroll={onScrollHandler}
-                        scrollEventThrottle={16}
+                        onScroll={(event) => {
+                            scrollX.value = event.nativeEvent.contentOffset.x;  
+                        }}
+                        
                     />
                 </SafeAreaView>
             </ImageBackground>
