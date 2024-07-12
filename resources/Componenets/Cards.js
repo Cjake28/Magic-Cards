@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { horizontalScale, verticalScale, moderateScale } from '../../utils/SizeModerator';
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolation } from 'react-native-reanimated';
 
-const Cards = ({ value, type, size = 1}) => {
+const Cards = ({ value, type, size = 1, style}) => {
   const imageMap = {
     heart: require('../../assets/images/heart.png'),
     diamond: require('../../assets/images/diamond.png'),
@@ -19,8 +19,8 @@ const Cards = ({ value, type, size = 1}) => {
   const scaledModerate = (val) => moderateScale(val) * size;
 
   return (
-    <View style={[styles.cardsContainer, { width: scaledHorizontal(73), height: scaledVertical(470), borderRadius: scaledModerate(8), padding: scaledModerate(5) }]}>
-      <View style={[styles.valueContainer, { width: scaledHorizontal(20), height: scaledVertical(90), marginBottom: scaledVertical(20) }]}>
+    <View style={[styles.cardsContainer, style, { width: scaledHorizontal(73), height: scaledVertical(470), borderRadius: scaledModerate(8), padding: scaledModerate(5) }]}>
+      <View style={[styles.valueContainer, { width: scaledHorizontal(20), height: scaledVertical(90), marginBottom: scaledVertical(20),flexDirection:'row' }]}>
         <Text style={[styles.valueText, { fontSize: scaledModerate(23), color }]}>{value}</Text>
       </View>
       <View style={[styles.imageContainer, { width: scaledHorizontal(20), height: scaledVertical(90) }]}>

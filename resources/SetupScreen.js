@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, FlatList, ImageBackground, StyleSheet, SafeAreaView, Dimensions } from 'react-native';
 import { horizontalScale, verticalScale } from '../utils/SizeModerator';
-import Cards from './Componenets/Cards';
+import SetupCards from './Componenets/setupCards';
 import Shuffle from './scrpit/shuffle';
 import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolation } from 'react-native-reanimated';
 
@@ -22,13 +22,13 @@ const SetupScreens = ({ navigation }) => {
 
     const first21Cards = Shuffle();
 
-    const renderItem = ({ item }) => (
-        <Cards value={item.value} type={item.suit} size={1} scrollX={scrollX} />
+    const renderItem = ({ item, index }) => (
+        <SetupCards item={item} size={1} scrollX={scrollX} index={index}/>
     );
 
     const onScrollHandler = (event) => {
         scrollX.value = event.nativeEvent.contentOffset.x;  
-        // console.log(scrollX.value);
+        console.log(scrollX.value);
       };
 
     return (
@@ -43,12 +43,9 @@ const SetupScreens = ({ navigation }) => {
                         contentContainerStyle={styles.flatListContent}
                         data={first21Cards}
                         renderItem={renderItem}
-                        onViewableItemsChanged={(viewableItems) =>{
-                            
-                        }}
                         keyExtractor={(item, index) => index.toString()}
                         horizontal={true}  // Set FlatList to horizontal
-                        ItemSeparatorComponent={() => <View style={{ width: horizontalScale(15) }} />}  // Adjust separator for horizontal layout
+                        // ItemSeparatorComponent={() => <View style={{ width: horizontalScale(15) }} />}  // Adjust separator for horizontal layout
                         showsHorizontalScrollIndicator={false}  // Hide horizontal scroll indicator
                         onScroll={onScrollHandler}
                         scrollEventThrottle={16}
