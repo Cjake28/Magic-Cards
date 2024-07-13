@@ -3,7 +3,7 @@ import { View, FlatList, ImageBackground, StyleSheet, SafeAreaView, Dimensions }
 import { horizontalScale, verticalScale } from '../utils/SizeModerator';
 import SetupCards from './Componenets/setupCards';
 import Shuffle from './scrpit/shuffle';
-import Animated, { useSharedValue, useAnimatedStyle, interpolate, Extrapolation } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedScrollHandler, interpolate, Extrapolation } from 'react-native-reanimated';
 
 const SetupScreens = ({ navigation }) => {
     const scrollX = useSharedValue(0);
@@ -19,6 +19,10 @@ const SetupScreens = ({ navigation }) => {
     //     return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
     //   }, [])
     // );
+
+    const onScrollHandler = useAnimatedScrollHandler(event => {
+        scrollX.value = event.contentOffset.x;
+    });
 
     const first21Cards = Shuffle();
 
@@ -40,12 +44,10 @@ const SetupScreens = ({ navigation }) => {
                         data={first21Cards}
                         renderItem={renderItem}
                         keyExtractor={(item, index) => index.toString()}
-                        showsHorizontalScrollIndicator={false}  // Hide horizontal scroll indicator
                         horizontal={true}  // Set FlatList to horizontal
                         // ItemSeparatorComponent={() => <View style={{ width: horizontalScale(15) }} />}  // Adjust separator for horizontal layout
-                        onScroll={(event) => {
-                            scrollX.value = event.nativeEvent.contentOffset.x;  
-                        }}
+                        showsHorizontalScrollIndicator={false}  // Hide horizontal scroll indicator
+                        onScroll={onScrollHandler}
                         
                     />
                 </SafeAreaView>
